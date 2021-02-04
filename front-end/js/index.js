@@ -1,4 +1,3 @@
-
 let url = 'http://localhost:3000/api/cameras/';
 fetch( url , {method : 'GET'})
 .then(data => {
@@ -18,26 +17,14 @@ fetch( url , {method : 'GET'})
                         <div class="card-body">
                             <h5 class="card-title">${product.name}</h5>
                             <p class="card-text">${product.price}</p>
-                            <button type="button" class="btn btn-dark">Voir le produit</button>
+                            <a href="Product.html?id=${product._id}"><button type="button" class="btn btn-dark" >Voir le produit</button></a>
                         </div>
                     </div>
                     </div>`
     });
-
     console.log(myHTML)
     HTML.innerHTML = myHTML
 })
 
 
 
-/* console.log(window)
-console.log(window.location)
-
-const urlParams = new URLSearchParams(window.location.search);
-const urlName = urlParams.get("name"); 
-
-console.log(urlName) */
-
-
-//https://monsite.com?key=value&key=value&key=value
-//https://monsite.com?name=thomas

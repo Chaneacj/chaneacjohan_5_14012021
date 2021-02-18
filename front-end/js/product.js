@@ -49,11 +49,8 @@ fetch(url, { method: 'GET' })
                                                 <input class="quantity" min="0" name="quantity" value="1" type="number">
                                             </div>
                                             <div class="form-group pl-0">
-                                            <select class="form-select" aria-label="Default select example">
-                                                <option selected>Open this select menu</option>
-                                                <option value="1">${products.lenses[0]}</option>
-                                                <option value="2">${products.lenses}</option>
-                                                <option value="3">${products.lenses}</option>
+                                            <select class="form-select" id=lenses-select aria-label="Default select example">
+                                                <option selected>Choisisez votre lentille</option>
                                             </select>
                                         </div>
                                         </td>
@@ -61,7 +58,7 @@ fetch(url, { method: 'GET' })
                                 </tbody>
                             </table>
                         </div>
-                            <button type="button" id="Addbasket" class="btn btn-primary btn-md mr-1 mb-2">Ajouter au panier</button>
+                            <button type="button" id="add-to-card" class="btn btn-primary btn-md mr-1 mb-2" onclick="window.location.href = 'panier.html';">Ajouter au panier</button>
                         </div>`
                    
         console.log(myHTML)
@@ -76,16 +73,43 @@ fetch(url, { method: 'GET' })
 
         //$('#productDetails').html(myHTML);
 
+        let lensesSelect = document.getElementById('lenses-select');
         products.lenses.forEach(lense => {
-            console.log(lense)
+            console.log(lense) 
+            let lenseOption = document.createElement("option");
+            console.log(lenseOption)
+            lenseOption.textContent = lense
+            lensesSelect.appendChild(lenseOption);
             //Créer les option du selecte
         });
+
         //Ajouter les Options qu select
 
 
 //ajout au panier
 //récupérer l'évenement (getElementById)
-let btnPanier = document.getElementById("")
+let btnPanier = document.getElementById("add-to-card")
+        console.log(btnPanier)
+btnPanier = addEventListener("click", event => {
+    
+});
+
+//j'enregistre les informations dans le localstorage sous forme de tableau
+myProduct = { 
+    id : products._id,
+    name : products.name,
+    description : products.description,
+    price : products.price,
+};
+//transforme le tableau en JSON
+
+cardProduct = JSON.stringify(myProduct);
+localStorage.setItem("panier", cardProduct);
+
+console.log(localStorage.getItem('panier'));
+
+
+   
 
 
 

@@ -1,3 +1,7 @@
+a {
+ color: white!important;
+}
+
 .card-img-top{
     height: 230px;
     object-fit: cover;

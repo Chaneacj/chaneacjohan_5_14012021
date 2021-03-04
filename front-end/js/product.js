@@ -46,7 +46,7 @@ fetch(url, { method: 'GET' })
                                     <tr>
                                         <td class="pl-0">
                                             <div class="def-number-input number-input safari_only mb-0">
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                                <input class="quantity" id="itemQty" min="0" name="quantity" value="1" type="number">
                                             </div>
                                             <div class="form-group pl-0">
                                             <select class="form-select" id=lenses-select aria-label="Default select example">
@@ -58,10 +58,10 @@ fetch(url, { method: 'GET' })
                                 </tbody>
                             </table>
                         </div>
-                            <button type="button" id="add-to-card" class="btn btn-primary btn-md mr-1 mb-2" onclick="window.location.href = 'panier.html';">Ajouter au panier</button>
+                            <button type="button" id="add-to-card" class="btn btn-primary btn-md mr-1 mb-2">Ajouter au panier</button>
                         </div>`
                    
-        console.log(myHTML)
+    
 
         //let HTML = document.getElementById("productDetails")
         //HTML.innerHTML = myHTML
@@ -75,48 +75,66 @@ fetch(url, { method: 'GET' })
 
         let lensesSelect = document.getElementById('lenses-select');
         products.lenses.forEach(lense => {
-            console.log(lense) 
             let lenseOption = document.createElement("option");
-            console.log(lenseOption)
             lenseOption.textContent = lense
+            lenseOption.value = lense
             lensesSelect.appendChild(lenseOption);
-            //Créer les option du selecte
         });
 
-        //Ajouter les Options qu select
 
 
 //ajout au panier
 //récupérer l'évenement (getElementById)
-let btnPanier = document.getElementById("add-to-card")
-        console.log(btnPanier)
-btnPanier = addEventListener("click", event => {
+    let btnPanier = document.getElementById("add-to-card")
+    btnPanier.addEventListener("click", event => {
+        //récupérer la quantité et la lentille choisie
+        let inputLense = lensesSelect.value
+        let inputQty = itemQty.value
+        
+        //j'enregistre les informations dans le localstorage sous forme de tableau
+        myProduct = { 
+            id : products._id,
+            name : products.name,
+            description : products.description,
+            price : products.price,
+            lense : inputLense,
+            qty : inputQty
+        };
+
+        
+        
+        //si Panier vide
+        let cart = [ myProduct ];
+
+        cardProduct = JSON.stringify(cart);
+       if (localStorage.getItem("panier") === null || localStorage.getItem("panier") === "" ){
+            localStorage.setItem("panier", cardProduct);
+        } else {
+            console.log(localStorage.getItem("panier"))
+
+            let cartArray = JSON.parse(localStorage.getItem("panier"))
+            cartArray.push(myProduct)
+            cartArray = JSON.stringify(cartArray)
+            localStorage.setItem("panier",cartArray)
+        } 
     
-});
 
-//j'enregistre les informations dans le localstorage sous forme de tableau
-myProduct = { 
-    id : products._id,
-    name : products.name,
-    description : products.description,
-    price : products.price,
-};
-//transforme le tableau en JSON
+        console.log(localStorage.getItem('panier'));
 
-cardProduct = JSON.stringify(myProduct);
-localStorage.setItem("panier", cardProduct);
-
-console.log(localStorage.getItem('panier'));
+        //Afficher un ,essqge , produit qjouter qu pqnier
+        btnPanier.textContent = "Ajouté !"
+        /*let val = confirm("Voulez-vous ajouter ce produit au panier?");
+        if( val == true ) {
+            document.write ("L'utilisateur veut continuer!");
+        } else {
+            document.write ("L'utilisateur ne veut pas continuer!");
+        }*/
+    
 
 
-   
+        
+    });
+})
 
-
-
-
-
-
-
-    })
 
 

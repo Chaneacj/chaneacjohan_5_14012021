@@ -50,7 +50,7 @@ fetch(url, { method: 'GET' })
                                             </div>
                                             <div class="form-group pl-0">
                                             <select class="form-select" id=lenses-select aria-label="Default select example">
-                                                <option selected>Choisisez votre lentille</option>
+                                                
                                             </select>
                                         </div>
                                         </td>

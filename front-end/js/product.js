@@ -33,7 +33,7 @@ fetch(url, { method: 'GET' })
 
                         <h5>${products.name}</h5>
                         <p class="mb-2 text-muted text-uppercase small">Lenses</p>
-                        <p><span class="mr-1"><strong>${products.price}€</strong></span></p>
+                        <p><span class="mr-1"><strong>${(products.price / 100).toFixed(2).replace(".", ",")}€</strong></span></p>
                         <p class="pt-1">${products.description}</p>
                         <hr>
                         <div class="table-responsive mb-2">
@@ -60,8 +60,8 @@ fetch(url, { method: 'GET' })
                         </div>
                             <button type="button" id="add-to-card" class="btn btn-primary btn-md mr-1 mb-2">Ajouter au panier</button>
                         </div>`
-                   
-    
+
+
 
         //let HTML = document.getElementById("productDetails")
         //HTML.innerHTML = myHTML
@@ -83,58 +83,49 @@ fetch(url, { method: 'GET' })
 
 
 
-//ajout au panier
-//récupérer l'évenement (getElementById)
-    let btnPanier = document.getElementById("add-to-card")
-    btnPanier.addEventListener("click", event => {
-        //récupérer la quantité et la lentille choisie
-        let inputLense = lensesSelect.value
-        let inputQty = itemQty.value
-        
-        //j'enregistre les informations dans le localstorage sous forme de tableau
-        myProduct = { 
-            id : products._id,
-            name : products.name,
-            description : products.description,
-            price : products.price,
-            lense : inputLense,
-            qty : inputQty
-        };
+        //ajout au panier
+        //récupérer l'évenement (getElementById)
+        let btnPanier = document.getElementById("add-to-card")
+        btnPanier.addEventListener("click", event => {
+            //récupérer la quantité et la lentille choisie
+            let inputLense = lensesSelect.value
+            let inputQty = itemQty.value
 
-        
-        
-        //si Panier vide
-        let cart = [ myProduct ];
-
-        cardProduct = JSON.stringify(cart);
-       if (localStorage.getItem("panier") === null || localStorage.getItem("panier") === "" ){
-            localStorage.setItem("panier", cardProduct);
-        } else {
-            console.log(localStorage.getItem("panier"))
-
-            let cartArray = JSON.parse(localStorage.getItem("panier"))
-            cartArray.push(myProduct)
-            cartArray = JSON.stringify(cartArray)
-            localStorage.setItem("panier",cartArray)
-        } 
-    
-
-        console.log(localStorage.getItem('panier'));
-
-        //Afficher un ,essqge , produit qjouter qu pqnier
-        btnPanier.textContent = "Ajouté !"
-        /*let val = confirm("Voulez-vous ajouter ce produit au panier?");
-        if( val == true ) {
-            document.write ("L'utilisateur veut continuer!");
-        } else {
-            document.write ("L'utilisateur ne veut pas continuer!");
-        }*/
-    
+            //j'enregistre les informations dans le localstorage sous forme de tableau
+            myProduct = {
+                id: products._id,
+                name: products.name,
+                description: products.description,
+                price: products.price,
+                lense: inputLense,
+                qty: inputQty,
+            };
 
 
-        
-    });
-})
+
+            //si Panier vide
+            let cart = [myProduct];
+
+            cardProduct = JSON.stringify(cart);
+            if (localStorage.getItem("panier") === null || localStorage.getItem("panier") === "") {
+                localStorage.setItem("panier", cardProduct);
+            } else {
+                console.log(localStorage.getItem("panier"))
+
+                let cartArray = JSON.parse(localStorage.getItem("panier"))
+                cartArray.push(myProduct)
+                cartArray = JSON.stringify(cartArray)
+                localStorage.setItem("panier", cartArray)
+            }
+
+
+            console.log(localStorage.getItem('panier'));
+
+            //Afficher un message, produit ajouter au panier
+            btnPanier.textContent = "Ajouté !"
+
+        });
+    })
 
 
 

@@ -39,11 +39,17 @@ function displayCart() {
             cancelCard();
         });
 
-        //validation formulaire
-        const form = document.querySelector("form");
+        //valider formulaire
+        const formValidation = document.getElementById(".form");
         form.addEventListener('submit', e => {
             e.preventDefault();
-            sendform();
+            //Input
+            //let resEqil = validateEmail(emailInput);
+            //if(resEqil){
+                formSend();
+            //}
+
+            
         });
 
         //Sinon, Panier vide
@@ -72,160 +78,120 @@ function updatecart() {
     displayCart();
 }
 
-
-//Récupère les valeurs de l'input dans contact__form
-//Récupère les id des produits du panier dans le tableau products
-//L'objet contact et le tableau products sont envoyé dans la function postOrder
-function sendform() {
-    let contact = {
-        firstName: document.getElementById("firstName").value,
-        lastName: document.getElementById("lastName").value,
-        email: document.getElementById("email").value,
-        address: document.getElementById("address").value,
-        city: document.getElementById("city").value, 
-    };
-
-    let products = [];
-    if (sessionStorage.getItem('panier') !== null) {
-        let productTab = JSON.parse(sessionStorage.getItem('panier'));
-        
-        productTab.forEach( p => {
-            products.push(p._id);
-        })
-    }
-    
-    let contactItems = JSON.stringify({
-        contact, products
-    })
-    postOrder(contactItems);
-};
-
-//Requête POST, envoi au serveur "contact" et le tableau d'id "products"
-//Enregistre l'objet "contact" et Id, le total de la commande sur le sessionStorage.
-//Envoie page "confirmation"
-function postOrder(contactItems) {
-
-    fetch("http://localhost:3000/api/teddies/order", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        mode:'cors',
-        body: contactItems
-    }).then(response => {
-
-        return response.json();
-
-    }).then( r => {
-        sessionStorage.setItem('contact', JSON.stringify(r.contact));
-        sessionStorage.setItem('orderId', JSON.stringify(r.orderId));
-        sessionStorage.setItem('total', JSON.stringify(total));
-        sessionStorage.removeItem('panier');
-        window.location.replace("confirmation.html");
-    })
-}
-
-
-/*
-let emailInput = document.getElementById("email");
+const emailInput = document.getElementById("email");
 const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const address = document.getElementById("address");
 const city = document.getElementById("city");
-const country = document.getElementById("country");*/
+const country = document.getElementById("country");
 
 
-//console.log(validate())
-
-/*function ValidateEmail(input) {
-    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (input.value.match(mailformat)) {
-        alert("Valid email address!");
+function validateEmail(input) {
+    var mailRegExp = ('^([a-zA-Z0-9-_.]+)@([a-zA-Z0-9-_.]+)\.([a-zA-Z]{2,5})$');
+    if (input.value.match(mailRegExp)) {
         input.focus();
         return true;
     }
     else {
-        alert("You have entered an invalid email address!");
         input.focus();
         return false;
     }
 }
 
-console.log(ValidateEmail(emailInput))*/
+console.log(validateEmail(emailInput))
 
-/*
-// checks user input
-const checkForm = () => {
-    if (checkEmail(emailInput.value, emailInput) && checkTextInput(firstName.value, firstName) && checkTextInput(lastName.value, lastName) && checkAddress(address.value, address) && checkTextInput(city.value, city)) {
+
+function validateTextInput(input) {
+    var textRegExp = ('^[^0-9]{2,50}$');
+    if (input.value.match(textRegExp)) {
+        input.focus();
         return true;
-    } else {
+    }
+    else {
+        input.focus();
         return false;
     }
 }
 
-console.log(checkForm())
+console.log(validateTextInput(city))
 
-// checks input with regex and displays alerts
-const regexTest = (data, regex, inputNode) => {
-    const alert = inputNode.nextElementSibling;
 
-    if (regex.test(data) === false) {
-        inputNode.classList.add('error-input');
-        alert.classList.remove('alert-hidden');
-        alert.classList.add('alert-displayed');
+function validateAddress(input) {
+    var addressRegExp = ('^.{5,200}$');
+    if (input.value.match(addressRegExp)) {
+        input.focus();
+        return true;
+    }
+    else {
+        input.focus();
         return false;
-    } else {
-        alert.classList.remove('alert-displayed');
-        alert.classList.add('alert-hidden');
-        inputNode.classList.remove('error-input');
-        return true;
     }
 }
 
-// defines the email regex
-const checkEmail = (data, input) => {
-    const regex = new RegExp('^([a-zA-Z0-9-_.]+)@([a-zA-Z0-9-_.]+)\.([a-zA-Z]{2,5})$');
-
-    if (regexTest(data, regex, input) === true) {
-        return true;
+function checkInput () {
+    let resCity = validateTextInput(city);
+    let resCity2 = validateTextInput(city);
+    if (resCity && resCity2){
+        return true
     }
+    return false
 }
 
-// defines the names and city regex
-const checkTextInput = (data, input) => {
-    const regex = new RegExp('^[^0-9]{2,50}$');
+console.log(validateAddress(address))
 
-    if (regexTest(data, regex, input) === true) {
-        return true;
+//Récupère les valeurs des l'input 
+
+function formSend() {
+    let contact = {
+        email: emailInput.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
+        address: address.value,
+        city: city.value
+    };
+
+    //Récupère les id des produits du panier dans le tableau products
+    let products = [];
+    if (localStorage.getItem('panier') !== null) {
+        let productTab = JSON.parse(localStorage.getItem('panier'));
+        console.log(productTab)
+        productTab.forEach(p => {
+            products.push(p.id);
+        })
+
+        //L'objet contact et le tableau products sont envoyés dans la fonction postOrder
+        
+        let contactItems = JSON.stringify({
+            contact, products
+        })
+        console.log(contactItems)
+        postOrder(contactItems);    
     }
+    
+};
+
+
+//Requête POST, envoi au serveur "contact" et le tableau d'id products
+//Enregistre l'objet contact et l'Id de la commande sur le localStorage
+//Envoie page confirmation
+
+    function postOrder(contactItems) {
+
+    fetch("http://localhost:3000/api/cameras/order", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: contactItems
+    }).then(response => {
+        return response.json();
+    }).then(r => {
+        console.log(r)
+        localStorage.setItem('contact', JSON.stringify(r.contact));
+        localStorage.setItem('orderId', JSON.stringify(r.orderId));
+        localStorage.removeItem('panier');
+
+        window.location.replace("./confirmation.html");
+    })
 }
 
-// defines the address regex
-const checkAddress = (data, input) => {
-    const regex = new RegExp('^.{5,200}$');
-
-    if (regexTest(data, regex, input) === true) {
-        return true;
-    }
-}
-
-// continous input checks
-emailInput.addEventListener("input", (e) => {
-    checkEmail(e.target.value, emailInput);
-});
-
-firstName.addEventListener("input", (e) => {
-    checkTextInput(e.target.value, firstName);
-});
-
-lastName.addEventListener("input", (e) => {
-    checkTextInput(e.target.value, lastName);
-});
-
-address.addEventListener("input", (e) => {
-    checkAddress(e.target.value, address);
-});
-
-city.addEventListener("input", (e) => {
-    checkTextInput(e.target.value, city)
-});*/

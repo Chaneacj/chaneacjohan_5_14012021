@@ -1,8 +1,8 @@
 // Récupére le JSON du local Storage
 let cartArray = JSON.parse(localStorage.getItem("panier"))
 
-// Contenu et grstion du panier
-function displayQuantity() {
+// Contenu et gestion du panier
+func
 if (localStorage.getItem('panier') !== null) {
     let HTML = document.getElementById("cardResume");
     let myHTML = ""
@@ -37,7 +37,6 @@ if (localStorage.getItem('panier') !== null) {
                               </li>
                           `
     HTML.innerHTML = myHTML
-}
 }
 
 

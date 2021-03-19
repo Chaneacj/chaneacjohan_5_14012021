@@ -1,21 +1,15 @@
-
-//Je recupère mon id
+//Récupération de l'id du produit sélectionné
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get('id');
 
-console.log(id)
-
+//  Récupération des données avec l'id associé au produir avec l'API fetch.
 let url = `http://localhost:3000/api/cameras/${id}`;
 fetch(url, { method: 'GET' })
     .then(data => {
         return data.json()
     }).then(products => {
         console.log(products)
-        console.log(products.name)
-        console.log(products.price)
-        console.log(products.imageUrl)
-        console.log(products.description)
-
+        // Affichage des données chargé dans le html
         let myHTML = `<div class="col-md-6 mb-4 mb-md-0">
                         <div id="mdb-lightbox-ui"></div>
                             <div class="mdb-lightbox">
@@ -40,8 +34,7 @@ fetch(url, { method: 'GET' })
                             <table class="table table-sm table-borderless">
                                 <tbody>
                                     <tr>
-                                        <td class="pl-0 pb-0 w-25">Quantity</td>
-                                        <td class="pb-0">Select size</td>
+                                        <td class="pl-0 pb-0 w-25">Quantité</td>
                                     </tr>
                                     <tr>
                                         <td class="pl-0">
@@ -61,19 +54,13 @@ fetch(url, { method: 'GET' })
                             <button type="button" id="add-to-card" class="btn btn-primary btn-md mr-1 mb-2">Ajouter au panier</button>
                         </div>`
 
-
-
-        //let HTML = document.getElementById("productDetails")
-        //HTML.innerHTML = myHTML
-
-        //let HTML = $('#productDetails')
-        //HTML.html(myHTML)
-
+        // Incorpore les donnée de l'API dans le html
         document.getElementById("productDetails").innerHTML = myHTML
 
-        //$('#productDetails').html(myHTML);
 
+        // Variable qui récupére le select avec les option de lentille
         let lensesSelect = document.getElementById('lenses-select');
+        // Boucle Foreach qui répéte l'opération selon le nombre de options disponible pour ce produit
         products.lenses.forEach(lense => {
             let lenseOption = document.createElement("option");
             lenseOption.textContent = lense
@@ -83,15 +70,16 @@ fetch(url, { method: 'GET' })
 
 
 
-        //ajout au panier
-        //récupérer l'évenement (getElementById)
+        //AJOUT AU PANIER
+        //Récupérer l'événement (getElementById + addEventListener)
         let btnPanier = document.getElementById("add-to-card")
+
         btnPanier.addEventListener("click", event => {
-            //récupérer la quantité et la lentille choisie
+            //Récupérer la quantité et la lentille choisie
             let inputLense = lensesSelect.value
             let inputQty = itemQty.value
 
-            //j'enregistre les informations dans le localstorage sous forme de tableau
+            //J'enregistre les informations sous forme de tableau
             myProduct = {
                 id: products._id,
                 name: products.name,
@@ -101,28 +89,24 @@ fetch(url, { method: 'GET' })
                 qty: inputQty,
             };
 
-
-
-            //si Panier vide
             let cart = [myProduct];
-
+            //Convertir mon tableau JavaScript en chaîne JSON pour le stocker
             cardProduct = JSON.stringify(cart);
+
+            //Si panier vide création d'un nouveau tableau
+            //Sinon récupère le tableau dans le localStorage, ajoute le nouveau produit.
             if (localStorage.getItem("panier") === null || localStorage.getItem("panier") === "") {
                 localStorage.setItem("panier", cardProduct);
             } else {
-                console.log(localStorage.getItem("panier"))
-
                 let cartArray = JSON.parse(localStorage.getItem("panier"))
                 cartArray.push(myProduct)
                 cartArray = JSON.stringify(cartArray)
                 localStorage.setItem("panier", cartArray)
             }
 
-
-            console.log(localStorage.getItem('panier'));
-
             //Afficher un message, produit ajouter au panier
-            btnPanier.textContent = "Ajouté !"
+            alert("L'article a été ajouté à votre panier");
+            //btnPanier.textContent = "Ajouté !"
 
         });
     })

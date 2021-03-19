@@ -1,16 +1,17 @@
+//  Récupération des données avec l'API fetch.
+
 let url = 'http://localhost:3000/api/cameras/';
 fetch(url, { method: 'GET' })
     .then(data => {
         return data.json()
     }).then(products => {
-        console.log(products)
 
-        let HTML = document.getElementById("produits")
+        //Je créer ma variable qui va me permettre d'afficher les données chargé
+        let HTML = document.getElementById("productList")
 
         let myHTML = ""
+        // Boucle Foreach qui répéte l'opération pour chaque produit dans l'API
         products.forEach(product => {
-            console.log(product.name)
-            console.log(product.price)
             myHTML += `<div class="col-12 col-lg-4">
                     <div class="card">
                         <img class="card-img-top" src=${product.imageUrl} alt="${product.name}">
@@ -22,7 +23,7 @@ fetch(url, { method: 'GET' })
                     </div>
                     </div>`
         });
-        console.log(myHTML)
+        // Incorpore les donnée de l'API dans le html
         HTML.innerHTML = myHTML
     })
 

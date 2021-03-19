@@ -43,13 +43,38 @@ function displayCart() {
         const formValidation = document.getElementById(".form");
         form.addEventListener('submit', e => {
             e.preventDefault();
-            //Input
-            //let resEqil = validateEmail(emailInput);
+
+            let resEmail = validateEmail(emailInput);
+            let resfirstName = validateTextInput(firstName);
+            let reslastName = validateTextInput(lastName);
+            let resadress = validateAddress(address);
+            let resCity = validateTextInput(city);
+            let rescart = validatecart();
+
+            console.log(resCity)
+            console.log(resEmail)
+            console.log(resfirstName)
+            console.log(reslastName)
+            console.log(resadress)
+            console.log(rescart)
+
+            if (resCity && resEmail && resfirstName && reslastName && resadress && rescart) {
+                alert("valide");
+                formSend();
+                return true
+            } else {
+                return false
+            }
+
+
+
+
+            /*//let resEqil = validateEmail(emailInput);
             //if(resEqil){
                 formSend();
-            //}
+            //}*/
 
-            
+
         });
 
         //Sinon, Panier vide
@@ -83,52 +108,59 @@ const firstName = document.getElementById("firstName");
 const lastName = document.getElementById("lastName");
 const address = document.getElementById("address");
 const city = document.getElementById("city");
-const country = document.getElementById("country");
-
 
 function validateEmail(input) {
     var mailRegExp = ('^([a-zA-Z0-9-_.]+)@([a-zA-Z0-9-_.]+)\.([a-zA-Z]{2,5})$');
     if (input.value.match(mailRegExp)) {
-        input.focus();
+        //input.focus();
         return true;
     }
     else {
-        input.focus();
+        alert("You have entered an invalid email address!");
+        //input.focus();
         return false;
     }
 }
-
-console.log(validateEmail(emailInput))
-
 
 function validateTextInput(input) {
     var textRegExp = ('^[^0-9]{2,50}$');
     if (input.value.match(textRegExp)) {
-        input.focus();
+        //input.focus();
         return true;
     }
     else {
-        input.focus();
+        alert("You have entered an invalid name or surname");
+        //input.focus();
         return false;
     }
 }
-
-console.log(validateTextInput(city))
-
 
 function validateAddress(input) {
     var addressRegExp = ('^.{5,200}$');
     if (input.value.match(addressRegExp)) {
-        input.focus();
+        //input.focus();
         return true;
     }
     else {
-        input.focus();
+        alert("You have entered an invalid address!");
+        //input.focus();
         return false;
     }
 }
 
-function checkInput () {
+function validatecart() {
+    if (localStorage.getItem('panier') !== null) {
+        //input.focus();
+        return true;
+    }
+    else {
+        alert("Votre panier est vide");
+        //input.focus();
+        return false;
+    }
+}
+
+/*function checkInput () {
     let resCity = validateTextInput(city);
     let resCity2 = validateTextInput(city);
     if (resCity && resCity2){
@@ -137,7 +169,7 @@ function checkInput () {
     return false
 }
 
-console.log(validateAddress(address))
+console.log(validateAddress(address))*/
 
 //Récupère les valeurs des l'input 
 
@@ -160,14 +192,14 @@ function formSend() {
         })
 
         //L'objet contact et le tableau products sont envoyés dans la fonction postOrder
-        
+
         let contactItems = JSON.stringify({
             contact, products
         })
         console.log(contactItems)
-        postOrder(contactItems);    
+        postOrder(contactItems);
     }
-    
+
 };
 
 
@@ -175,7 +207,7 @@ function formSend() {
 //Enregistre l'objet contact et l'Id de la commande sur le localStorage
 //Envoie page confirmation
 
-    function postOrder(contactItems) {
+function postOrder(contactItems) {
 
     fetch("http://localhost:3000/api/cameras/order", {
         method: 'POST',
@@ -189,9 +221,9 @@ function formSend() {
         console.log(r)
         localStorage.setItem('contact', JSON.stringify(r.contact));
         localStorage.setItem('orderId', JSON.stringify(r.orderId));
-        localStorage.removeItem('panier');
+        //localStorage.removeItem('panier');
 
-        window.location.replace("./confirmation.html");
+        //window.location.replace("./confirmation.html");
     })
 }
 

@@ -144,7 +144,6 @@ function validateAddress(input) {
     }
 }
 
-
 //Le formulaire est validé et corrrectement rempli
 const formValidation = document.getElementById(".form");
 form.addEventListener('submit', e => {
@@ -158,10 +157,7 @@ form.addEventListener('submit', e => {
 
     if (resCity && resEmail && resfirstName && reslastName && resadress) {
         formSend();
-        return true
-    } else {
-        return false
-    }
+    } 
 });
 
 //Récupère les valeurs des l'input 
@@ -195,7 +191,7 @@ function formSend() {
 
 
 //Appel de l'API fetch et en voi les données avec POST
-//Enregistre l'objet contact l'Id et le prix total de la commande sur le localStorage
+//Enregistre le tableau contact, l'Id et le prix total de la commande sur le localStorage
 //Renvoi à la page de confirmation page confirmation
 
 function postOrder(contactItems) {

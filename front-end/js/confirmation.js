@@ -3,7 +3,7 @@ if (localStorage.getItem('contact') === null) {
     window.location.replace("./index.html");
 }
 
-//Récupération des différents éléments dans le localStorage afin de les afficher sur la page confirmation
+//Récupération des donneés contenu dans le localStorage afin de les afficher sur la page confirmation
 const contact = JSON.parse(localStorage.getItem("contact"));
 console.log(contact)
 const orderId = JSON.parse(localStorage.getItem("orderId"));

@@ -1,5 +1,4 @@
 //  Récupération des données avec l'API fetch.
-
 let url = 'http://localhost:3000/api/cameras/';
 fetch(url, { method: 'GET' })
     .then(data => {

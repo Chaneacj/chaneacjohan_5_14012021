@@ -82,12 +82,10 @@ const city = document.getElementById("city");
 function validateEmail(input) {
     var mailRegExp = ('^([a-zA-Z0-9-_.]+)@([a-zA-Z0-9-_.]+)\.([a-zA-Z]{2,5})$');
     if (input.value.match(mailRegExp)) {
-        //input.focus();
         return true;
     }
     else {
         alert("Le champs Email contient des erreurs");
-        //input.focus();
         return false;
     }
 }
@@ -95,12 +93,10 @@ function validateEmail(input) {
 function validateFirstName(input) {
     var textRegExp = ('^[^0-9]{2,50}$');
     if (input.value.match(textRegExp)) {
-        //input.focus();
         return true;
     }
     else {
         alert("Le champs prénom contient des erreurs");
-        //input.focus();
         return false;
     }
 }
@@ -108,12 +104,10 @@ function validateFirstName(input) {
 function validateLastName(input) {
     var textRegExp = ('^[^0-9]{2,50}$');
     if (input.value.match(textRegExp)) {
-        //input.focus();
         return true;
     }
     else {
         alert("Le champs nom contient des erreurs");
-        //input.focus();
         return false;
     }
 }
@@ -121,12 +115,10 @@ function validateLastName(input) {
 function validateCity(input) {
     var textRegExp = ('^[^0-9]{2,50}$');
     if (input.value.match(textRegExp)) {
-        //input.focus();
         return true;
     }
     else {
         alert("Le champs ville contient des erreurs");
-        //input.focus();
         return false;
     }
 }
@@ -134,12 +126,10 @@ function validateCity(input) {
 function validateAddress(input) {
     var addressRegExp = ('^.{5,200}$');
     if (input.value.match(addressRegExp)) {
-        //input.focus();
         return true;
     }
     else {
         alert("You have entered an invalid address!");
-        //input.focus();
         return false;
     }
 }
@@ -186,14 +176,12 @@ function formSend() {
     } else {
         alert("Votre panier est vide");
     }
-
 };
 
 
 //Appel de l'API fetch et en voi les données avec POST
 //Enregistre le tableau contact, l'Id et le prix total de la commande sur le localStorage
 //Renvoi à la page de confirmation page confirmation
-
 function postOrder(contactItems) {
 
     fetch("http://localhost:3000/api/cameras/order", {
@@ -210,9 +198,6 @@ function postOrder(contactItems) {
         localStorage.setItem('orderId', JSON.stringify(r.orderId));
 
         localStorage.removeItem('panier');
-
-
         window.location.replace("./confirmation.html");
     })
 }
-

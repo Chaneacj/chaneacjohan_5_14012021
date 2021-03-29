@@ -8,7 +8,6 @@ fetch(url, { method: 'GET' })
     .then(data => {
         return data.json()
     }).then(products => {
-        console.log(products)
         // Affichage des données chargé dans le html
         let myHTML = `<div class="col-md-6 mb-4 mb-md-0">
                         <div id="mdb-lightbox-ui"></div>
@@ -68,8 +67,6 @@ fetch(url, { method: 'GET' })
             lensesSelect.appendChild(lenseOption);
         });
 
-
-
         //AJOUT AU PANIER
         //Récupérer l'événement (getElementById + addEventListener)
         let btnPanier = document.getElementById("add-to-card")
@@ -79,7 +76,7 @@ fetch(url, { method: 'GET' })
             let inputLense = lensesSelect.value
             let inputQty = itemQty.value
 
-            //J'enregistre les informations sous forme de tableau
+            //Enregistre les informations sous forme de tableau
             myProduct = {
                 id: products._id,
                 name: products.name,
@@ -110,6 +107,3 @@ fetch(url, { method: 'GET' })
 
         });
     })
-
-
-
